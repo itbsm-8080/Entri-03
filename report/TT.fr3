@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TfrxReport Version="4.3" DotMatrixReport="True" IniFile="\Software\Fast Reports" PreviewOptions.Buttons="4095" PreviewOptions.Zoom="1" PrintOptions.Printer="Default" PrintOptions.PrintOnSheet="0" ReportOptions.CreateDate="42014.4463260648" ReportOptions.Description.Text="" ReportOptions.LastChange="43828.8615914931" ScriptLanguage="PascalScript" ScriptText.Text="&#13;&#10;begin&#13;&#10;&#13;&#10;end." PropData="08446174617365747301010C1E00000020446174615365743D2251302220446174615365744E616D653D2251302200010C3000000020446174615365743D22515065727573616861616E2220446174615365744E616D653D22515065727573616861616E220000095661726961626C65730100055374796C650100">
+  <TfrxDataPage Name="Data" Height="1000" Left="0" Top="0" Width="1000"/>
+  <TfrxDMPPage Name="Page1" PaperWidth="292.099811352205" PaperHeight="148.431154138213" PaperSize="256" LeftMargin="2.53999835958439" RightMargin="0" TopMargin="0" BottomMargin="0" ColumnWidth="0" ColumnPositions.Text="" HGuides.Text="" VGuides.Text="" FontStyle="0">
+    <TfrxGroupHeader Name="GroupHeader1" Height="187" Left="0" Top="17" Width="1094.4" Condition="Q0.&#34;tt_nomor&#34;" ReprintOnNewPage="True">
+      <TfrxDMPMemoView Name="DMPMemo1" Left="316.8" Top="17" Width="316.8" Height="17" DisplayFormat.DecimalSeparator="." FontStyle="289" HAlign="haCenter" ParentFont="False" Text="T A N D A   T E R I M A"/>
+      <TfrxDMPMemoView Name="DMPMemo2" Left="441.6" Top="51" Width="163.2" Height="17" DataSet="Q0" DataSetName="Q0" DisplayFormat.DecimalSeparator="." FontStyle="256" ParentFont="False" Text="[Q0.&#34;tt_nomor&#34;]"/>
+      <TfrxDMPMemoView Name="DMPMemo3" Left="441.6" Top="68" Width="268.8" Height="17" DataSet="Q0" DataSetName="Q0" DisplayFormat.DecimalSeparator="." DisplayFormat.FormatStr="dd/mm/yyyy" DisplayFormat.Kind="fkDateTime" FontStyle="256" ParentFont="False" Text="[Q0.&#34;tt_tanggal&#34;]"/>
+      <TfrxDMPMemoView Name="DMPMemo4" Left="441.6" Top="85" Width="268.8" Height="51" DataSet="Q0" DataSetName="Q0" DisplayFormat.DecimalSeparator="." DisplayFormat.FormatStr="dd/mm/yyyy" FontStyle="256" ParentFont="False" Text="[Q0.&#34;tt_memo&#34;]"/>
+      <TfrxDMPMemoView Name="DMPMemo5" Left="326.4" Top="51" Width="96" Height="17" OnBeforePrint="DMPMemo5OnBeforePrint" FontStyle="256" ParentFont="False" Text="Nomor"/>
+      <TfrxDMPMemoView Name="DMPMemo6" Left="326.4" Top="68" Width="96" Height="17" FontStyle="256" ParentFont="False" Text="Tanggal"/>
+      <TfrxDMPMemoView Name="DMPMemo7" Left="326.4" Top="85" Width="96" Height="34" DisplayFormat.DecimalSeparator="." FontStyle="256" ParentFont="False" Text="Memo"/>
+      <TfrxDMPMemoView Name="DMPMemo8" Left="422.4" Top="51" Width="19.2" Height="17" FontStyle="256" ParentFont="False" Text=":"/>
+      <TfrxDMPMemoView Name="DMPMemo9" Left="422.4" Top="68" Width="19.2" Height="17" FontStyle="256" ParentFont="False" Text=":"/>
+      <TfrxDMPMemoView Name="DMPMemo10" Left="422.4" Top="85" Width="19.2" Height="17" FontStyle="256" ParentFont="False" Text=":"/>
+      <TfrxDMPMemoView Name="DMPMemo17" Left="0" Top="153" Width="28.8" Height="17" FontStyle="256" Frame.Typ="13" ParentFont="False" Text="No."/>
+      <TfrxDMPMemoView Name="DMPMemo19" Left="182.4" Top="153" Width="470.4" Height="17" FontStyle="256" Frame.Typ="13" ParentFont="False" Text="Nama"/>
+      <TfrxDMPMemoView Name="DMPMemo20" Left="729.6" Top="153" Width="67.2" Height="17" FontStyle="256" Frame.Typ="15" ParentFont="False" Text="Jml"/>
+      <TfrxDMPCommand Name="DMPCommand1" Left="0" Top="0" Width="28.8" Height="17" Command="#27#80"/>
+      <TfrxDMPMemoView Name="DMPMemo18" Left="38.4" Top="153" Width="134.4" Height="17" DisplayFormat.DecimalSeparator="." FontStyle="256" Frame.Typ="13" ParentFont="False" Text="Kode"/>
+      <TfrxDMPMemoView Name="DMPMemo33" Left="662.4" Top="153" Width="57.6" Height="17" DisplayFormat.DecimalSeparator="." FontStyle="256" Frame.Typ="13" ParentFont="False" Text="Satuan"/>
+      <TfrxDMPMemoView Name="Q0mnt2_brg_kode" Left="835.2" Top="51" Width="259.2" Height="17" DataSet="Q0" DataSetName="Q0" DisplayFormat.DecimalSeparator="." Text="[Q0.&#34;cus_nama&#34;]"/>
+      <TfrxDMPMemoView Name="Q0mnt2_keterangan" Left="835.2" Top="68" Width="249.6" Height="51" DataSet="Q0" DataSetName="Q0" DisplayFormat.DecimalSeparator="." Text="[Q0.&#34;cus_alamat&#34;]"/>
+      <TfrxDMPMemoView Name="DMPMemo28" Left="720" Top="51" Width="96" Height="17" OnBeforePrint="DMPMemo5OnBeforePrint" DisplayFormat.DecimalSeparator="." FontStyle="256" ParentFont="False" Text="Customer"/>
+      <TfrxDMPMemoView Name="DMPMemo29" Left="816" Top="51" Width="19.2" Height="17" FontStyle="256" ParentFont="False" Text=":"/>
+      <TfrxDMPMemoView Name="DMPMemo30" Left="720" Top="68" Width="96" Height="17" OnBeforePrint="DMPMemo5OnBeforePrint" DisplayFormat.DecimalSeparator="." FontStyle="256" ParentFont="False" Text="Alamat"/>
+      <TfrxDMPMemoView Name="DMPMemo31" Left="816" Top="68" Width="19.2" Height="17" FontStyle="256" ParentFont="False" Text=":"/>
+      <TfrxDMPMemoView Name="QPerusahaanPERUSH_NAMA" Left="9.6" Top="51" Width="307.2" Height="17" DataField="PERUSH_NAMA" DataSet="QPerusahaan" DataSetName="QPerusahaan" Text="[QPerusahaan.&#34;PERUSH_NAMA&#34;]"/>
+      <TfrxDMPMemoView Name="QPerusahaanPERUSH_ALAMAT" Left="9.6" Top="68" Width="316.8" Height="34" DataField="PERUSH_ALAMAT" DataSet="QPerusahaan" DataSetName="QPerusahaan" Text="[QPerusahaan.&#34;PERUSH_ALAMAT&#34;]"/>
+      <TfrxDMPMemoView Name="DMPMemo50" Left="835.2" Top="119" Width="691.2" Height="17" DataSet="Q0" DataSetName="Q0" DisplayFormat.DecimalSeparator="." Text="[Q0.&#34;Cus_telp&#34;]"/>
+      <TfrxDMPMemoView Name="DMPMemo51" Left="720" Top="119" Width="96" Height="17" OnBeforePrint="DMPMemo5OnBeforePrint" DisplayFormat.DecimalSeparator="." FontStyle="256" ParentFont="False" Text="Telp"/>
+      <TfrxDMPMemoView Name="DMPMemo52" Left="816" Top="119" Width="19.2" Height="17" FontStyle="256" ParentFont="False" Text=":"/>
+      <TfrxDMPMemoView Name="QPerusahaanPERUSH_NOTELP" Left="9.6" Top="102" Width="144" Height="17" DataField="PERUSH_NOTELP" DataSet="QPerusahaan" DataSetName="QPerusahaan" Text="[QPerusahaan.&#34;PERUSH_NOTELP&#34;]"/>
+      <TfrxDMPMemoView Name="QPerusahaanPERUSH_NPWP" Left="9.6" Top="119" Width="230.4" Height="17" DataField="PERUSH_NPWP" DataSet="QPerusahaan" DataSetName="QPerusahaan" Text="[QPerusahaan.&#34;PERUSH_NPWP&#34;]"/>
+      <TfrxDMPMemoView Name="DMPMemo14" Left="806.4" Top="153" Width="144" Height="17" DisplayFormat.DecimalSeparator="." FontStyle="256" Frame.Typ="15" ParentFont="False" Text="Expired Date"/>
+    </TfrxGroupHeader>
+    <TfrxMasterData Name="MasterData1" Height="17" Left="0" Top="221" Width="1094.4" OnAfterPrint="MasterData1OnAfterPrint" ColumnWidth="0" ColumnGap="0" DataSet="Q0" DataSetName="Q0" RowCount="0">
+      <TfrxDMPMemoView Name="DMPMemo11" Left="38.4" Top="0" Width="134.4" Height="17" DataSet="Q0" DataSetName="Q0" DisplayFormat.DecimalSeparator="." FontStyle="256" HideZeros="True" ParentFont="False" Text="[Q0.&#34;brg_kode&#34;]"/>
+      <TfrxDMPMemoView Name="DMPMemo12" Left="182.4" Top="0" Width="470.4" Height="17" DataSet="Q0" DataSetName="Q0" DisplayFormat.DecimalSeparator="." FontStyle="256" ParentFont="False" Text="[Q0.&#34;brg_nama&#34;]"/>
+      <TfrxDMPMemoView Name="DMPMemo13" Left="729.6" Top="0" Width="67.2" Height="17" DataSet="Q0" DataSetName="Q0" DisplayFormat.DecimalSeparator="." DisplayFormat.FormatStr="%2.n" DisplayFormat.Kind="fkNumeric" FontStyle="256" HAlign="haCenter" HideZeros="True" ParentFont="False" Text="[Q0.&#34;ttd_qty&#34;]"/>
+      <TfrxDMPMemoView Name="DMPMemo16" Left="-9.6" Top="0" Width="38.4" Height="17" FontStyle="256" HAlign="haCenter" ParentFont="False" Text="[Line#]"/>
+      <TfrxDMPMemoView Name="DMPMemo34" Left="662.4" Top="0" Width="57.6" Height="17" DataSet="Q0" DataSetName="Q0" DisplayFormat.DecimalSeparator="." FontStyle="256" HAlign="haCenter" ParentFont="False" Text="[Q0.&#34;brg_satuan&#34;]"/>
+      <TfrxDMPMemoView Name="DMPMemo15" Left="806.4" Top="0" Width="144" Height="17" DataSet="Q0" DataSetName="Q0" DisplayFormat.DecimalSeparator="." DisplayFormat.FormatStr="mm/yyyy" DisplayFormat.Kind="fkDateTime" FontStyle="256" HAlign="haCenter" HideZeros="True" ParentFont="False" Text="[Q0.&#34;ttd_tgl_expired&#34;]"/>
+    </TfrxMasterData>
+    <TfrxPageFooter Name="PageFooter1" Height="136" Left="0" Top="272" Width="1094.4">
+      <TfrxDMPLineView Name="DMPLine1" Left="4.8" Top="8.5" Width="950.4" Height="0" FontStyle="256" ParentFont="False"/>
+      <TfrxDMPMemoView Name="DMPMemo25" Left="182.4" Top="34" Width="153.6" Height="68" DisplayFormat.DecimalSeparator="." FontStyle="256" HAlign="haCenter" ParentFont="False" Text="Disiapkan,&#13;&#10;&#13;&#10;&#13;&#10;(__________)"/>
+      <TfrxDMPMemoView Name="DMPMemo27" Left="374.4" Top="34" Width="134.4" Height="68" DisplayFormat.DecimalSeparator="." FontStyle="256" HAlign="haCenter" ParentFont="False" Text="Disetujui,&#13;&#10;&#13;&#10;&#13;&#10;(__________)"/>
+      <TfrxDMPMemoView Name="DMPMemo47" Left="0" Top="85" Width="96" Height="17" Text=""/>
+      <TfrxDMPMemoView Name="DMPMemo63" Left="0" Top="102" Width="96" Height="17" Text=""/>
+      <TfrxDMPMemoView Name="DMPMemo64" Left="0" Top="119" Width="96" Height="17" Text=""/>
+      <TfrxDMPMemoView Name="DMPMemo23" Left="556.8" Top="34" Width="134.4" Height="68" DisplayFormat.DecimalSeparator="." FontStyle="256" HAlign="haCenter" ParentFont="False" Text=" Diterima,&#13;&#10;&#13;&#10;&#13;&#10;(__________)"/>
+    </TfrxPageFooter>
+  </TfrxDMPPage>
+</TfrxReport>
