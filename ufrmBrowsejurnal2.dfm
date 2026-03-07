@@ -27,6 +27,7 @@ object frmBrowseJurnal2: TfrmBrowseJurnal2
     Width = 1008
     Height = 516
     HorzScrollBar.Range = 1020
+    VertScrollBar.Position = 105
     VertScrollBar.Range = 600
     Align = alClient
     AutoScroll = False
@@ -34,7 +35,7 @@ object frmBrowseJurnal2: TfrmBrowseJurnal2
     ThemeObject = 'default'
     object TePanel4: TTePanel
       Left = 0
-      Top = 0
+      Top = -105
       Width = 1020
       Height = 600
       Align = alClient

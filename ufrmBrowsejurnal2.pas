@@ -213,8 +213,8 @@ begin
         begin
           if ds3.Fields[i].DataType = ftFloat then
           begin
-             ds3.Fields[i].Alignment := taRightJustify;
-             TFloatField(ds3.Fields[i]).DisplayFormat := '###,###,###';
+             sqlqry1.Fields[i].Alignment := taRightJustify;
+             TFloatField(sqlqry1.Fields[i]).DisplayFormat := '###,###,###';
           end;
 
         end;
