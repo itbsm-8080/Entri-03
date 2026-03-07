@@ -12,7 +12,7 @@ uses
   cxCustomData, cxFilter, cxData, cxDataStorage, DB, cxDBData, cxSpinEdit,
   cxCurrencyEdit, cxGridLevel, cxGridCustomTableView, cxGridTableView,
   cxGridDBTableView, cxClasses, cxGridCustomView, cxGrid, cxButtonEdit,
-  MyAccess;
+  MyAccess, cxGridExportLink;
 
 type
   TfrmBarang = class(TForm)
@@ -70,6 +70,9 @@ type
     lvMaster: TcxGridLevel;
     PopupMenu1: TPopupMenu;
     HapusRecord1: TMenuItem;
+    btn1: TButton;
+    dlgSavesavedlg: TSaveDialog;
+    cxgrdbclmnGridDBTableView1Column2: TcxGridDBColumn;
     procedure clNoGetDisplayText(Sender: TcxCustomGridTableItem; ARecord:
         TcxCustomGridRecord; var AText: string);
     procedure refreshdata;
@@ -87,6 +90,7 @@ type
     procedure cxGridDBColumn2PropertiesButtonClick(Sender: TObject;
       AButtonIndex: Integer);
     procedure HapusRecord1Click(Sender: TObject);
+    procedure btn1Click(Sender: TObject);
 
   private
     FCDSJenisGroup: TClientDataset;
@@ -352,12 +356,13 @@ ExecSQLDirect(frmMenu.conn, s);
   begin
    if CDS2.FieldByName('qty').AsFloat >  0 then
    begin
-    S:='insert into tbarangkomposisi (bk_brg_kode,bk_bhn_kode,bk_qty,bk_satuan,bk_nourut) values ('
+    S:='insert into tbarangkomposisi (bk_brg_kode,bk_bhn_kode,bk_qty,bk_satuan,bk_nourut, bk_spesifikasi) values ('
       + Quot(edtKode.Text) +','
       + IntToStr(CDS2.FieldByName('kode').AsInteger) +','
       + floatToStr(CDS2.FieldByName('qty').Asfloat)+','
       + Quot(CDS2.FieldByName('satuan').asstring)+','
-      + inttostr(i)
+      + inttostr(i)+','
+      + Quot(CDS2.FieldByName('spesifikasi').asstring)
       + ');';
     tt.Append(s);
    end;
@@ -568,6 +573,7 @@ begin
     zAddField(FCDS2, 'nama', ftstring, False,30);
     zAddField(FCDS2, 'Qty', ftfloat, False);
     zAddField(FCDS2, 'satuan', ftstring, False,30);
+    zAddField(FCDS2, 'spesifikasi', ftstring, False,100);
     FCDS2.CreateDataSet;
   end;
   Result := FCDS2
@@ -602,7 +608,7 @@ begin
  end;
 
  cds2.EmptyDataSet;
-   s:=' select bk_bhn_kode,brg_nama ,bk_qty,bk_satuan from tbarangkomposisi inner join '
+   s:=' select bk_bhn_kode,brg_nama ,bk_qty,bk_satuan, bk_spesifikasi from tbarangkomposisi inner join '
      + ' tbarang on brg_kode=bk_bhn_kode '
      + ' where bk_brg_kode='+ Quot(edtKode.Text)
      + ' order by bk_nourut ';
@@ -618,7 +624,7 @@ begin
         CDS2.FieldByName('nama').AsString     := Fields[1].AsString;
         CDS2.FieldByName('qty').AsFloat       := Fields[2].AsFloat;
         CDS2.FieldByName('satuan').AsString   := Fields[3].AsString;
-
+        CDS2.FieldByName('spesifikasi').AsString := Fields[4].AsString;
         CDS2.Post;
 
        Next;
@@ -664,6 +670,14 @@ begin
  If CDS2.Eof then exit;
   CDS2.Delete;
 
+end;
+
+procedure TfrmBarang.btn1Click(Sender: TObject);
+begin
+  if dlgSavesavedlg.Execute then
+  ExportGridToExcel(dlgSavesavedlg.FileName, cxGrid1,True,True,True);
+
+  cxGridDBTableView1.DataController.CollapseDetails;
 end;
 
 end.

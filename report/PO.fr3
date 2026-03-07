@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TfrxReport Version="4.3" DotMatrixReport="True" IniFile="\Software\Fast Reports" PreviewOptions.Buttons="4095" PreviewOptions.Zoom="1" PrintOptions.Printer="Default" PrintOptions.PrintOnSheet="0" ReportOptions.CreateDate="42014.4463260648" ReportOptions.Description.Text="" ReportOptions.LastChange="45266.5266496875" ScriptLanguage="PascalScript" ScriptText.Text="begin&#13;&#10;&#13;&#10;end." PropData="08446174617365747301010C1E00000020446174615365743D2251302220446174615365744E616D653D2251302200010C3000000020446174615365743D22515065727573616861616E2220446174615365744E616D653D22515065727573616861616E220000095661726961626C65730100055374796C650100">
+<TfrxReport Version="4.3" DotMatrixReport="True" IniFile="\Software\Fast Reports" PreviewOptions.Buttons="4095" PreviewOptions.Zoom="1" PrintOptions.Printer="Default" PrintOptions.PrintOnSheet="0" ReportOptions.CreateDate="42014.4463260648" ReportOptions.Description.Text="" ReportOptions.LastChange="46087.4796000232" ScriptLanguage="PascalScript" ScriptText.Text="begin&#13;&#10;&#13;&#10;end." PropData="08446174617365747301010C1E00000020446174615365743D2251302220446174615365744E616D653D2251302200010C3000000020446174615365743D22515065727573616861616E2220446174615365744E616D653D22515065727573616861616E220000095661726961626C65730100055374796C650100">
   <TfrxDataPage Name="Data" Height="1000" Left="0" Top="0" Width="1000"/>
   <TfrxDMPPage Name="Page1" PaperWidth="292.099811352205" PaperHeight="148.431154138213" PaperSize="256" LeftMargin="2.53999835958439" RightMargin="0" TopMargin="0" BottomMargin="0" ColumnWidth="0" ColumnPositions.Text="" HGuides.Text="" VGuides.Text="" FontStyle="0">
     <TfrxGroupHeader Name="GroupHeader1" Height="187" Left="0" Top="17" Width="1094.4" Condition="Q0.&#34;po_nomor&#34;" ReprintOnNewPage="True">
@@ -45,9 +45,6 @@
       <TfrxDMPMemoView Name="DMPMemo24" Left="393.6" Top="51" Width="134.4" Height="85" DisplayFormat.DecimalSeparator="." FontStyle="256" HAlign="haCenter" ParentFont="False" Text="Dibuat Oleh,&#13;&#10;&#13;&#10;&#13;&#10;&#13;&#10;(__________)"/>
       <TfrxDMPMemoView Name="DMPMemo25" Left="585.6" Top="51" Width="144" Height="85" DisplayFormat.DecimalSeparator="." FontStyle="256" HAlign="haCenter" ParentFont="False" Text="Disetujui,&#13;&#10;&#13;&#10;&#13;&#10;&#13;&#10;(__________)"/>
       <TfrxDMPMemoView Name="DMPMemo30" Left="9.6" Top="17" Width="720" Height="34" DisplayFormat.DecimalSeparator="." FontStyle="256" ParentFont="False" Text="Terbilang : [Q0.&#34;terbilang&#34;] Rupiah"/>
-      <TfrxDMPMemoView Name="DMPMemo47" Left="0" Top="136" Width="96" Height="17" Text=""/>
-      <TfrxDMPMemoView Name="DMPMemo63" Left="0" Top="153" Width="96" Height="17" Text=""/>
-      <TfrxDMPMemoView Name="DMPMemo64" Left="0" Top="170" Width="96" Height="17" Text=""/>
       <TfrxDMPMemoView Name="DMPMemo27" Left="768" Top="17" Width="105.6" Height="17" DisplayFormat.DecimalSeparator="." FontStyle="256" ParentFont="False" Text="Total"/>
       <TfrxDMPMemoView Name="DMPMemo23" Left="768" Top="34" Width="105.6" Height="17" DisplayFormat.DecimalSeparator="." FontStyle="256" ParentFont="False" Text="Ppn"/>
       <TfrxDMPMemoView Name="DMPMemo31" Left="768" Top="51" Width="105.6" Height="17" DisplayFormat.DecimalSeparator="." FontStyle="256" ParentFont="False" Text="Grand Total"/>
@@ -57,6 +54,8 @@
       <TfrxDMPMemoView Name="DMPMemo40" Left="883.2" Top="17" Width="9.6" Height="17" FontStyle="256" ParentFont="False" Text=":"/>
       <TfrxDMPMemoView Name="DMPMemo41" Left="883.2" Top="34" Width="9.6" Height="17" FontStyle="256" ParentFont="False" Text=":"/>
       <TfrxDMPMemoView Name="DMPMemo42" Left="883.2" Top="51" Width="9.6" Height="17" FontStyle="256" ParentFont="False" Text=":"/>
+      <TfrxDMPMemoView Name="DMPMemo43" Left="9.6" Top="51" Width="67.2" Height="34" DisplayFormat.DecimalSeparator="." FontStyle="256" ParentFont="False" Text="Memo : "/>
+      <TfrxDMPMemoView Name="DMPMemo44" Left="76.8" Top="51" Width="288" Height="119" DisplayFormat.DecimalSeparator="." FontStyle="256" ParentFont="False" Text="[Q0.&#34;po_memo&#34;]"/>
     </TfrxPageFooter>
   </TfrxDMPPage>
 </TfrxReport>

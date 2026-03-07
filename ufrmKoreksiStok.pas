@@ -21,7 +21,7 @@ uses
   dxSkinOffice2007Green, dxSkinOffice2007Pink, dxSkinOffice2007Silver,
   dxSkinPumpkin, dxSkinSeven, dxSkinSharp, dxSkinSilver, dxSkinSpringTime,
   dxSkinStardust, dxSkinSummer2008, dxSkinValentine, dxSkinXmas2008Blue,
-  MyAccess;
+  MyAccess, cxGridExportLink;
 
 type
   TfrmKoreksiStok = class(TForm)
@@ -61,6 +61,8 @@ type
     Button1: TButton;
     Button2: TButton;
     OpenDialog1: TOpenDialog;
+    dlgSavesavedlg: TSaveDialog;
+    btn1: TButton;
     procedure FormShow(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
@@ -91,6 +93,7 @@ type
     procedure Button2Click(Sender: TObject);
     procedure clSKUPropertiesEditValueChanged(Sender: TObject);
     procedure clExpiredPropertiesEditValueChanged(Sender: TObject);
+    procedure btn1Click(Sender: TObject);
     private
      buttonSelected  : integer;
      FID : STRING;
@@ -828,6 +831,14 @@ begin
       end;
     end
 
+end;
+
+procedure TfrmKoreksiStok.btn1Click(Sender: TObject);
+begin
+  if dlgSavesavedlg.Execute then
+  ExportGridToExcel(dlgSavesavedlg.FileName, cxGrid,True,True,True);
+
+  cxGrdMain.DataController.CollapseDetails;
 end;
 
 end.

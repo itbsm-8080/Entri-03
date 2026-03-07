@@ -632,6 +632,15 @@ object frmBarang: TfrmBarang
       TabOrder = 13
       Visible = False
     end
+    object btn1: TButton
+      Left = 478
+      Top = 241
+      Width = 108
+      Height = 25
+      Caption = 'Export Excel'
+      TabOrder = 14
+      OnClick = btn1Click
+    end
   end
   object AdvPanel3: TAdvPanel
     Left = 0
@@ -1089,6 +1098,14 @@ object frmBarang: TfrmBarang
               Caption = 'Satuan'
               DataBinding.FieldName = 'satuan'
             end
+            object cxgrdbclmnGridDBTableView1Column2: TcxGridDBColumn
+              Caption = 'Spesifikasi'
+              DataBinding.FieldName = 'spesifikasi'
+              PropertiesClassName = 'TcxTextEditProperties'
+              HeaderAlignmentHorz = taCenter
+              HeaderAlignmentVert = vaCenter
+              Width = 150
+            end
           end
           object cxGridDBTableView2: TcxGridDBTableView
             NavigatorButtons.ConfirmDelete = False
@@ -1212,5 +1229,9 @@ object frmBarang: TfrmBarang
       Caption = 'Hapus Record'
       OnClick = HapusRecord1Click
     end
+  end
+  object dlgSavesavedlg: TSaveDialog
+    Left = 400
+    Top = 312
   end
 end
