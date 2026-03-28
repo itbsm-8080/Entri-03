@@ -58,8 +58,9 @@ begin
 
   Self.SQLMaster := 'select korh_nomor Nomor,korh_Tanggal Tanggal ,b.gdg_nama Gudang,'
                   + ' korh_notes Keterangan,korh_total Total,korh_idbatch Idbatch,korh_expired Expired,korh_produksi Produksi,korh_memo Memo,'
-                  + ' if (korh_notes="PRODUKSI",(SELECT kord_qty FROM tkor_dtl WHERE kord_korh_nomor =korh_nomor AND kord_qty > 0 limit 1),0) Qty_Produksi,user_create,date_create'
+                  + ' if (korh_notes="PRODUKSI",(SELECT kord_qty FROM tkor_dtl WHERE kord_korh_nomor =korh_nomor AND kord_qty > 0 limit 1),0) Qty_Produksi'
                   + afieldnilai
+                  + ',user_create,date_create'
                   + ' from tkor_hdr  a '
                   + ' left join  tgudang b on b.gdg_kode=a.korh_gdg_kode '
                   + ' where korh_tanggal between ' + QuotD(startdate.DateTime) + ' and ' + QuotD(enddate.DateTime)
