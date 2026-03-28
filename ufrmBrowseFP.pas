@@ -32,6 +32,7 @@ type
     cxStyle2: TcxStyle;
     cxButton10: TcxButton;
     frxDotMatrixExport1: TfrxDotMatrixExport;
+    cxButton11: TcxButton;
   procedure btnRefreshClick(Sender: TObject);
   procedure FormShow(Sender: TObject);
     procedure cxButton2Click(Sender: TObject);
@@ -47,6 +48,7 @@ type
       Sender: TcxCustomGridTableView; ARecord: TcxCustomGridRecord;
       AItem: TcxCustomGridTableItem; out AStyle: TcxStyle);
     procedure cxButton10Click(Sender: TObject);
+    procedure cxButton11Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -301,6 +303,12 @@ procedure TfrmBrowseFP.cxButton10Click(Sender: TObject);
 begin
   inherited;
       frmFP.doslip3(CDSMaster.FieldByname('Nomor').AsString);
+end;
+
+procedure TfrmBrowseFP.cxButton11Click(Sender: TObject);
+begin
+  inherited;
+      frmFP.doslip4(CDSMaster.FieldByname('Nomor').AsString);
 end;
 
 end.

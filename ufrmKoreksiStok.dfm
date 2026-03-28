@@ -1,6 +1,6 @@
 object frmKoreksiStok: TfrmKoreksiStok
-  Left = 0
-  Top = 168
+  Left = 240
+  Top = 161
   Width = 1142
   Height = 560
   Caption = 'Koreksi Stok'
@@ -380,6 +380,15 @@ object frmKoreksiStok: TfrmKoreksiStok
       Caption = 'From Excel'
       TabOrder = 5
       OnClick = Button2Click
+    end
+    object btn1: TButton
+      Left = 1070
+      Top = 28
+      Width = 108
+      Height = 25
+      Caption = 'Export Excel'
+      TabOrder = 6
+      OnClick = btn1Click
     end
   end
   object AdvPanel3: TAdvPanel
@@ -837,5 +846,9 @@ object frmKoreksiStok: TfrmKoreksiStok
   object OpenDialog1: TOpenDialog
     Left = 320
     Top = 297
+  end
+  object dlgSavesavedlg: TSaveDialog
+    Left = 232
+    Top = 208
   end
 end

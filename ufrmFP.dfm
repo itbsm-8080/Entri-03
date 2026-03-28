@@ -1,5 +1,5 @@
 object frmFP: TfrmFP
-  Left = 171
+  Left = 195
   Top = 138
   Width = 1211
   Height = 558
@@ -421,9 +421,6 @@ object frmFP: TfrmFP
       Width = 65
       Height = 17
       Caption = 'Pajak'
-      Checked = True
-      Enabled = False
-      State = cbChecked
       TabOrder = 6
       OnKeyPress = FormKeyPress
     end

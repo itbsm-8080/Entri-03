@@ -861,12 +861,13 @@ begin
             if apajak = 1 then
                chkpajak.Checked := True
             else
+              chkpajak.Checked := false;
 
-            aisecer := fieldbyname('do_isecer').AsInteger;
-            if aisecer = 1 then
-               chkeceran.Checked := True
-            else
-               chkeceran.Checked := false;
+//            aisecer := fieldbyname('do_isecer').AsInteger;
+//            if aisecer = 1 then
+//               chkeceran.Checked := True
+//            else
+//               chkeceran.Checked := false;
 
             edtNomor.Text := getmaxkode(apajak);
             cxLookupcustomer.EditValue  := fieldbyname('so_cus_kode').AsString;
@@ -1426,7 +1427,7 @@ ExecSQLDirect(frmMenu.conn, tt[i]);
   finally
     tt.Free;
   end;
-    
+
 
 end;
 
@@ -1688,58 +1689,18 @@ END;
 procedure TfrmFP.doslip4(anomor : string );
 var
   s: string ;
-  tsql2,tsql : TmyQuery;
-  abaris,i,a:Integer;
-  arekening,anamabarang,TERBILANG : String;
-  anilaipiutang:double;
-  afreight,adiscfaktur,adp,atotal,anilai,appn : Double;
-  apjno,apj : string;
-
+  ftsreport : TTSReport;
 begin
- if not cekcetak(anomor) then
- begin
-   s:='update tfp_hdr set fp_iscetak=1 where fp_nomor = '+ Quot(anomor);
-     EnsureConnected(frmMenu.conn);
-  ExecSQLDirect(frmMenu.conn, s);
-   
- end
- else
- begin
-      if MessageDlg('Sudah pernah di cetak ,Yakin ingin cetak lagi ?',mtCustom,
-                                  [mbYes,mbNo], 0)= mrNo
-      then Exit ;
+//  frxDotMatrixExport1.Start;
 
- end;
+  // insertketampungan(anomor);
+  ftsreport := TTSReport.Create(nil);
+  try
+    ftsreport.Nama := 'FPRET';
 
- Application.CreateForm(TfrmCetak,frmCetak);
- abaris := getbarisslip('FP');
- with frmCetak do
- begin
-    memo.Clear;
-      memo.Lines.Add('');
-
-       s := 'select perush_nama, perush_alamat , perush_kota , perush_NOtelp,perush_npwp,perush_pak,perush_pj,perush_pj_no '
-      + ' from tperusahaan ';
-
-  tsql := xOpenQuery(s, frmMenu.conn);
-  with tsql do
-  begin
-    try
-      apj :=Fields[6].AsString;
-      apjno := Fields[7].AsString;
-      memo.Lines.Add(StrPadRight(Fields[0].AsString , 79 , ' ')+ ' '+StrPadRight(' F A K T U R   P E N J U A L A N ', 40 , ' '));
-      memo.Lines.Add(StrPadRight(Fields[1].AsString+ ' ' + Fields[3].AsString, 120, ' '));
-      memo.Lines.Add('NPWP : ' + StrPadRight(Fields[4].AsString, 30, ' ')+ ' PAK : ' + StrPadRight(Fields[5].AsString, 60, ' '));
-
-    finally
-      Free;
-    end;
-  end;
-
-      s:= ' select '
-       + ' *,if(fpd_nourut is null ,1000,fpd_nourut) nourut ,terbilang(fp_amount-ifnull(retj_amount,0)) terbilang ,'
-       + ' ((fp_amount-retj_amount-fp_taxamount)+fp_disc_faktur)/(100-fp_disc_fakturpr)*100 nett ,cus_top top,'
-       + ' (select cbg_rekening from tcabang where cbg_aktif=1) Rekening '       
+          s:= ' select '
+       + ' *,(((fp_amount-fp_freight)-fp_taxamount)+fp_disc_faktur)/(100-fp_disc_fakturpr)*100 net,'
+       + ' if(fpd_nourut is null ,1000,fpd_nourut) nourut ,terbilang(round(fp_amount)) Terbilang'
        + ' from tfp_hdr '
        + ' inner join tdo_hdr on do_nomor=fp_do_nomor'
        + ' inner join tso_hdr on so_nomor=do_so_nomor'
@@ -1749,249 +1710,14 @@ begin
        + ' left join tbarang on fpd_brg_kode=brg_kode '
        + ' LEFT JOIN tretj_hdr ON retj_fp_nomor=fp_nomor'
        + ' LEFT JOIN tretj_dtl ON retj_nomor=retjd_retj_nomor AND retjd_brg_kode=fpd_brg_kode'
-       + ' AND retjd_expired=fpd_expired'
        + ' where '
        + ' fp_nomor=' + quot(anomor)
        + ' order by nourut';
-
-  tsql := xOpenQuery(s,frmMenu.conn);
-  with tsql do
-  begin
-  try
-
-    if not Eof then
-    begin
-      TERBILANG := fieldbyname('terbilang').AsString;
-          anilai := fieldbyname('FP_amount').AsFloat-(fieldbyname('retj_amount').AsFloat-fieldbyname('retj_taxamount').AsFloat) - fieldbyname('FP_taxamount').AsFloat-fieldbyname('FP_freight').AsFloat;
-          appn := fieldbyname('FP_taxamount').AsFloat-fieldbyname('retj_taxamount').AsFloat;
-          atotal := fieldbyname('FP_amount').AsFloat-fieldbyname('retj_amount').AsFloat;
-          afreight := fieldbyname('FP_freight').AsFloat;
-          adp :=fieldbyname('FP_dp').AsFloat;
-          adiscfaktur :=  ((fieldbyname('FP_disc_fakturpr').asfloat*fieldbyname('nett').asfloat)/100) + fieldbyname('FP_disc_faktur').asfloat;
-          arekening := fieldbyname('rekening').asstring;
-      memo.Lines.Add(StrPadRight('Nomor      : '+fieldbyname('FP_nomor').AsString, 60, ' ')+ ' ' + StrPadRight('Customer : '+ fieldbyname('cus_nama').AsString, 60, ' '));
-      memo.Lines.Add(StrPadRight('Tanggal    : '+FormatDateTime('dd/mm/yyyy',fieldbyname('FP_tanggal').AsDateTime), 60, ' ')+ ' ' + StrPadRight(fieldbyname('cus_alamat').AsString, 60, ' '));
-      if fieldbyname('top').asinteger > 30 then
-      memo.Lines.Add(StrPadRight('Jth Tempo  : '+FormatDateTime('dd/mm/yyyy',fieldbyname('FP_tanggal').AsDateTime+30), 60, ' ')+ ' ' + StrPadRight('Salesman : '+ fieldbyname('sls_nama').AsString, 30, ' ')+' ' + StrPadRight('Memo : '+ fieldbyname('fp_memo').AsString, 28, ' '))
-      else
-      memo.Lines.Add(StrPadRight('Jth Tempo  : '+FormatDateTime('dd/mm/yyyy',fieldbyname('FP_jthtempo').AsDateTime), 60, ' ')+ ' ' + StrPadRight('Salesman : '+ fieldbyname('sls_nama').AsString, 30, ' ')+' ' + StrPadRight('Memo : '+ fieldbyname('fp_memo').AsString, 28, ' '));
-
-      memo.Lines.Add(StrPadRight('', 120, '-'));
-      memo.Lines.Add(StrPadRight('No', 3, ' ')+' '
-                          +StrPadRight('Kode', 8, ' ')+' '
-                          +StrPadRight('Nama', 44, ' ')+' '
-                          +StrPadRight('Satuan', 10, ' ')+' '
-                          +StrPadLeft('Jumlah', 10, ' ')+' '
-                          +StrPadLeft('Disc(%)', 10, ' ')+' '
-                          +StrPadLeft('Harga', 14, ' ')+' '
-                          +StrPadLeft('Total', 15, ' ')+' '
-                          );
-       memo.Lines.Add(StrPadRight('', 120, '-'));
-    end;
-    i:=1;
-     while not eof do
-     begin
-         if strtoint(formatdatetime('yyyy',fieldbyname('fpd_expired').AsDateTime)) > 2000 then
-         anamabarang :=FieldByName('brg_nama').AsString + ' / '+FormatDateTime('mm.yyyy',fieldbyname('fpd_expired').AsDateTime)
-         else
-         anamabarang :=FieldByName('brg_nama').AsString;
-
-
-       if fieldbyname('fpd_qty').Asfloat-fieldbyname('retjd_qty').Asfloat > 0  then
-       begin
-
-             memo.Lines.Add(StrPadRight(IntToStr(i), 3, ' ')+' '
-                          +StrPadRight(fieldbyname('fpd_brg_kode').AsString, 8, ' ')+' '
-                          +StrPadRight(anamabarang, 44, ' ')+' '
-                          +StrPadRight(fieldbyname('fpd_brg_satuan').AsString, 10, ' ')+' '
-                          +StrPadLeft(FormatFloat('##,###',fieldbyname('fpd_qty').Asfloat-fieldbyname('retjd_qty').Asfloat), 10, ' ')+' '
-                          +StrPadLeft(FormatFloat('##,###.##',fieldbyname('fpd_discpr').Asfloat), 10, ' ')+' '
-                          +StrPadLeft(FormatFloat('#,###,###.##',fieldbyname('fpd_harga').Asfloat), 14, ' ')+' '
-                          +StrPadLeft(FormatFloat('##,###,###.##',(100-fieldbyname('fpd_discpr').Asfloat)/100*fieldbyname('fpd_harga').Asfloat*(fieldbyname('fpd_qty').Asfloat-fieldbyname('retjd_qty').Asfloat)), 15, ' ')+' '
-                          );
-                       i:=i+1;
-       end;
-       Next;
-       if (i mod abaris =0) and (not eof) then
-       begin
-         memo.Lines.Add(StrPadRight('', 120, '-'));
-            for a:=1 to 10 do
-            begin
-              memo.Lines.Add('');
-            end;
-           s := 'select perush_nama, perush_alamat , perush_kota , perush_NOtelp,perush_npwp , PERUSH_PAK'
-          + ' from tperusahaan ';
-
-            tsql2 := xOpenQuery(s, frmMenu.conn);
-            with tsql2 do
-            begin
-              try
-                memo.Lines.Add(StrPadRight(Fields[0].AsString , 79 , ' ')+ ' '+StrPadRight(' F A K T U R   P E N J U A L A N ', 40 , ' '));
-                memo.Lines.Add(StrPadRight(Fields[1].AsString+ ' ' + Fields[3].AsString, 120, ' '));
-                memo.Lines.Add('NPWP : ' + StrPadRight(Fields[4].AsString, 30, ' ')+ ' PAK : ' + StrPadRight(Fields[5].AsString, 60, ' '));
-                memo.Lines.Add('');
-              finally
-                Free;
-              end;
-            end;
-//            memo.Lines.Add(StrPadcenter('S A L E S   O R D E R ', 120, ' '));
-
-      memo.Lines.Add(StrPadRight('Nomor      : '+fieldbyname('FP_nomor').AsString, 60, ' ')+ ' ' + StrPadRight('Customer : '+ fieldbyname('cus_nama').AsString, 60, ' '));
-      memo.Lines.Add(StrPadRight('Tanggal    : '+FormatDateTime('dd/mm/yyyy',fieldbyname('FP_tanggal').AsDateTime), 60, ' ')+ ' ' + StrPadRight(fieldbyname('cus_alamat').AsString, 60, ' '));
-      memo.Lines.Add(StrPadRight('Jth Tempo  : '+FormatDateTime('dd/mm/yyyy',fieldbyname('FP_jthtempo').AsDateTime), 60, ' ')+ ' ' + StrPadRight('Salesman : '+ fieldbyname('sls_nama').AsString, 60, ' '));
-
-            memo.Lines.Add(StrPadRight('', 120, '-'));
-            memo.Lines.Add(StrPadRight('No', 3, ' ')+' '
-                          +StrPadRight('Kode', 12, ' ')+' '
-                          +StrPadRight('Nama', 40, ' ')+' '
-                          +StrPadRight('Satuan', 10, ' ')+' '
-                          +StrPadLeft('Jumlah', 10, ' ')+' '
-                          +StrPadLeft('Disc(%)', 10, ' ')+' '
-                          +StrPadLeft('Harga', 14, ' ')+' '
-                          +StrPadLeft('Total', 15, ' ')+' '
-                          );
-
-                   memo.Lines.Add(StrPadRight('', 120, '-'));
-       end;
-     end;
-    if  i mod abaris <> 0 then
-    begin
-      for a:=1 to (abaris - (i mod abaris)) do
-      begin
-        memo.Lines.Add('');
-      end;
-    end;
-    //-----
-           memo.Lines.Add(StrPadRight('', 120, '-'));
-
-
-    memo.Lines.Add(   StrPadRight(Copy('Terbilang : ' + TERBILANG + ' RUPIAH',1,80), 81, ' ')+' '
-                          +StrPadRight('Total     :', 15, ' ')+ ' '
-                          + StrPadLeft( FormatFloat('##,###,###.##',anilai), 21, ' ')+ ' '
-                          );
-    memo.Lines.Add(   StrPadRight(Copy('Terbilang : ' + TERBILANG + ' RUPIAH',81,160), 81, ' ')+' '
-                          +StrPadRight('Ppn           :', 15, ' ')+ ' '
-                           + StrPadLeft( FormatFloat('##,###,###.##',appn), 21, ' ')+ ' '
-                          );
-if appn > 0 then
-begin
-    memo.Lines.Add(StrPadRight('Mohon Pembayaran ditransfer ke BANK SYARIAH INDONESIA ', 82, ' ')
-                  +StrPadRight('Freight       :', 15, ' ')+ ' '
-                  + StrPadLeft( FormatFloat('##,###,###.##',afreight), 21, ' '));
-    memo.Lines.Add(StrPadRight('Norek : '+arekening, 82, ' ')
-                  +StrPadRight('Grand Total   :', 15, ' ')+ ' '
-                  + StrPadLeft( FormatFloat('##,###,###.##',atotal), 21, ' '));
-
-    memo.Lines.Add(StrPadRight('A/n   : PT Bumi Sarana Maju', 82, ' '));
-end
-else
-begin
-    memo.Lines.Add(StrPadRight('', 82, ' ')
-                  +StrPadRight('Freight       :', 15, ' ')+ ' '
-                  + StrPadLeft( FormatFloat('##,###,###.##',afreight), 21, ' '));
-    memo.Lines.Add(StrPadRight('', 82, ' ')
-                  +StrPadRight('Grand Total   :', 15, ' ')+ ' '
-                  + StrPadLeft( FormatFloat('##,###,###.##',atotal), 21, ' '));
-
-    memo.Lines.Add(StrPadRight('', 82, ' '));
-end;
-
-
-
-    memo.Lines.Add('');
-
-    memo.Lines.Add(
-    StrPadRight('  Di cek Oleh', 20, ' ')
-    +StrPadRight('      Disetujui', 35, ' ')
-    +StrPadRight('   Diantar', 25, ' ')
-    +StrPadRight('   Diterima', 25, ' ')
-    +StrPadRight('* Retur Max 7 Hari ', 30, ' '));
-    memo.Lines.Add('');
-    memo.Lines.Add('');
-          memo.Lines.Add(
-                          StrPadRight('(               )', 20, ' ')
-                          +StrPadRight('(PJ:'+apj+')', 35, ' ')+' '
-                          +StrPadRight('(              )', 22, ' ')
-                          +StrPadRight('(              )', 22, ' ')
-                          +StrPadRight('', 30, ' ')
-                          );
-//          memo.Lines.Add(  StrPadRight('                 ', 20, ' ')
-//                          +StrPadRight('PJ:'+apj, 35, ' '));
-       memo.Lines.Add(
-                          StrPadRight('                 ', 20, ' ')
-                          +StrPadRight('  No:'+apjno+'', 35, ' ')+' '
-                          +StrPadRight('               ', 25, ' ')
-                          +StrPadRight('', 30, ' '));
-//       memo.Lines.Add('Note : Retur barang maksimal 7 (tujuh) hari (konfirmasi terlebih dahulu)');
-
-    nomor :=anomor;
-    memo.Lines.Add('');
-    memo.Lines.Add('');
-
-
-
-    //---
-
-//    memo.Lines.Add(StrPadRight('', 120, '-'));
-//
-//    memo.Lines.Add(   StrPadRight(Copy('Terbilang : ' + TERBILANG + ' RUPIAH',1,80), 81, ' ')+' '
-//                          +StrPadRight('Disc faktur   :', 15, ' ')+ ' '
-//                          + StrPadLeft( FormatFloat('##,###,###.##',adiscfaktur), 21, ' ')+ ' '
-//                          );
-//    memo.Lines.Add(   StrPadRight(Copy('Terbilang : ' + TERBILANG + ' RUPIAH',81,160), 81, ' ')+' '
-//                          +StrPadRight('Total         :', 15, ' ')+ ' '
-//                           + StrPadLeft( FormatFloat('##,###,###.##',anilai), 21, ' ')+ ' '
-//                          );
-//    memo.Lines.Add(   StrPadRight(Copy('Terbilang : ' + TERBILANG + ' RUPIAH',161,240), 81, ' ')+' '
-//                          +StrPadRight('Ppn           :', 15, ' ')+ ' '
-//                          + StrPadLeft( FormatFloat('##,###,###.##',appn), 21, ' ')+ ' '
-//                          );
-//     memo.Lines.Add(      StrPadRight('  Disiapkan', 27, ' ')+' '
-//                          +StrPadRight(' Disetujui,', 30, ' ')+' '
-//                          +StrPadRight(' Penerima,', 23, ' ')
-//
-//                          +StrPadRight('Freight       :', 15, ' ')+ ' '
-//                          + StrPadLeft( FormatFloat('##,###,###.##',afreight), 21, ' ')+ ' '
-//                          );
-////
-////                          anilaipiutang :=atotal-
-////                          StrToFloat(StringReplace(getdebet(anomor),',','',[rfReplaceAll]));
-////      memo.Lines.Add(   StrPadRight('', 81, ' ')+' '
-////                          +StrPadRight('DP        :', 15, ' ')+ ' '
-////                          + StrPadLeft( FormatFloat('###,###,###',ADP), 21, ' ')+ ' '
-////                          );
-//     memo.Lines.Add(      StrPadRight('', 81, ' ')+' '
-//                          +StrPadRight('Grand Total   :', 15, ' ')+ ' '
-//                          + StrPadLeft( FormatFloat('##,###,###.##',atotal), 21, ' ')+ ' '
-//                          );
-//
-////    memo.Lines.Add(
-////                          );
-//    memo.Lines.Add('');
-//    memo.Lines.Add('');
-//    memo.Lines.Add('');
-//          memo.Lines.Add(  StrPadRight('(               )', 20, ' ')
-//                          +StrPadRight('(PJ:'+apj+')', 35, ' ')+' '
-//                          +StrPadRight('(               )', 25, ' ')
-//                          );
-////          memo.Lines.Add(  StrPadRight('                 ', 20, ' ')
-////                          +StrPadRight('PJ:'+apj, 35, ' '));
-//       memo.Lines.Add(StrPadRight('                 ', 20, ' ')
-//                          +StrPadRight('  No:'+apjno+'', 35, ' ')+' '
-//                          +StrPadRight('               ', 25, ' '));
-//
-//       memo.Lines.Add('');
-//       memo.Lines.Add('');
-//    nomor :=anomor;
-//
-
-
+    ftsreport.AddSQL(s);
+    ftsreport.ShowReport;
   finally
-     free;
-  end
+     ftsreport.Free;
   end;
-  end;
-    frmCetak.ShowModal;
 END;
 
 procedure TfrmFP.doslip5(anomor : string );
@@ -3560,7 +3286,4 @@ end;
   end;
     frmCetak.ShowModal;
 END;
-
-
-
 end.
