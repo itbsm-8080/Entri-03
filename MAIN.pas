@@ -200,6 +200,7 @@ type
     LaporanStokCabang1: TMenuItem;
     dxPesananJual: TdxNavBarItem;
     dxPengiriman: TdxNavBarItem;
+    dxListProduksi: TdxNavBarItem;
     procedure FileExit1Execute(Sender: TObject);
     function ShowForm(AFormClass: TFormClass): TForm;
     procedure Maximized1Click(Sender: TObject);
@@ -329,6 +330,7 @@ type
     procedure dxAbsensiClick(Sender: TObject);
     procedure LaporanStokCabang1Click(Sender: TObject);
     procedure dxreturbahanClick(Sender: TObject);
+    procedure dxListProduksiClick(Sender: TObject);
 
 
   private
@@ -396,7 +398,7 @@ implementation
  ufrmPostingJurnalBulanan,ufrmLapBiayaBulanan,ufrmProsesGaji,ufrmLapLabaRugi,ufrmLapNeraca,ufrmProsesAvgcost,
  ufrmListSaldoHutang,ufrmLapAnggaran,
  ufrmBrowseSPK,ufrmbrowsemintabahan,ufrmUpload,ufrmbrowsestbj,
- ufrmimportabsensi,ufrmlapabsensi,ufrmliststokcabang,ufrmbrowsereturbahan;
+ ufrmimportabsensi,ufrmlapabsensi,ufrmliststokcabang,ufrmbrowsereturbahan,ufrmListProduksi;
 {$R *.dfm}
 
 
@@ -1497,6 +1499,14 @@ begin
    ActiveMDIChild.WindowState := wsMaximized;
  end;
 
+end;
+
+procedure TfrmMenu.dxListProduksiClick(Sender: TObject);
+begin
+ if ActiveMDIChild.Caption <> 'List Hasil Produksi' then
+ begin
+    ShowForm(TfrmListProduksi).Show;
+ end;
 end;
 
 end.

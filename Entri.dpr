@@ -140,7 +140,8 @@ uses
   ufrmImportAbsensi in 'ufrmImportAbsensi.pas' {frmImportAbsensi},
   ufrmListStokCabang in 'ufrmListStokCabang.pas' {frmListStokCabang},
   ufrmBrowseReturBahan in 'ufrmBrowseReturBahan.pas' {frmBrowseReturBahan},
-  ufrmReturBahan in 'ufrmReturBahan.pas' {frmReturBahan};
+  ufrmReturBahan in 'ufrmReturBahan.pas' {frmReturBahan},
+  ufrmListProduksi in 'ufrmListProduksi.pas' {frmListProduksi};
 
 {$R *.res}
 

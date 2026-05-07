@@ -1,6 +1,6 @@
 object frmMenu: TfrmMenu
-  Left = 201
-  Top = 298
+  Left = 226
+  Top = 267
   Width = 1035
   Height = 560
   Caption = 'Inventory'
@@ -3403,6 +3403,9 @@ object frmMenu: TfrmMenu
             end
             item
               Item = dxSTBJ
+            end
+            item
+              Item = dxListProduksi
             end>
         end
         object dxNavBar2Group3: TdxNavBarGroup
@@ -3667,6 +3670,10 @@ object frmMenu: TfrmMenu
           Caption = 'DO'
           SmallImageIndex = 16
           OnClick = dxPengirimanClick
+        end
+        object dxListProduksi: TdxNavBarItem
+          Caption = 'List Hasil Produksi'
+          OnClick = dxListProduksiClick
         end
       end
     end
