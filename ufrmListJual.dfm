@@ -3733,17 +3733,17 @@ object frmListJual: TfrmListJual
     object cxVCLPrinterChart: TdxGridReportLink
       Component = cxChart
       PrinterPage.DMPaper = 1
-      PrinterPage.Footer = 200
+      PrinterPage.Footer = 5080
       PrinterPage.GrayShading = True
-      PrinterPage.Header = 200
-      PrinterPage.Margins.Bottom = 500
-      PrinterPage.Margins.Left = 500
-      PrinterPage.Margins.Right = 500
-      PrinterPage.Margins.Top = 500
-      PrinterPage.PageSize.X = 8500
-      PrinterPage.PageSize.Y = 11000
+      PrinterPage.Header = 5080
+      PrinterPage.Margins.Bottom = 12700
+      PrinterPage.Margins.Left = 12700
+      PrinterPage.Margins.Right = 12700
+      PrinterPage.Margins.Top = 12700
+      PrinterPage.PageSize.X = 215900
+      PrinterPage.PageSize.Y = 279400
       PrinterPage._dxMeasurementUnits_ = 0
-      PrinterPage._dxLastMU_ = 1
+      PrinterPage._dxLastMU_ = 2
       BuiltInReportLink = True
     end
   end

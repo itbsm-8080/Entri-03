@@ -181,7 +181,10 @@ var
   afilter : string ;
   i,jmlkolom:integer;
 begin
-  s := 'SELECT KORH_NOMOR Nomor, KORH_TANGGAL Tanggal, month(KORH_TANGGAL) Bulan,year(KORH_TANGGAL) Tahun, brg_nama Nama, gdg_jenis_barang Tipe, '
+  s := 'SELECT KORH_NOMOR Nomor, KORH_TANGGAL Tanggal, month(KORH_TANGGAL) Bulan,year(KORH_TANGGAL) Tahun, brg_nama Nama, '
+     + ' ktg_nama Kategori, gdg_jenis_barang Tipe, '
+     + ' (SELECT ktg_nama FROM tkategori where ktg_kode=SUBSTRING_INDEX(brg_ktg_kode, ".", 2)) SubDepartemen, '
+     + ' (SELECT ktg_nama FROM tkategori where ktg_kode=SUBSTRING_INDEX(brg_ktg_kode, ".", 1)) Departemen, '
      + '    CASE '
      + '          WHEN kord_gdg_kode <> "GJ-01" '
      + '            THEN kord_qty * -1 '
@@ -196,7 +199,8 @@ begin
      + '   FROM tkor_hdr '
      + '   INNER JOIN tkor_dtl ON KORH_NOMOR = KORD_KORH_NOMOR '
      + '   INNER JOIN tbarang ON brg_kode = KORD_BRG_KODE '
-     + '   INNER JOIN tgudang ON gdg_kode  = kord_gdg_kode '
+     + '   INNER JOIN tgudang ON gdg_kode = kord_gdg_kode '
+     + '   left join tkategori on ktg_kode = brg_ktg_kode '
      + ' where KORH_TANGGAL between ' + QuotD(startdate.DateTime) + ' and ' + QuotD(enddate.DateTime)
      + '   ORDER BY KORH_NOMOR ';
       ds3.Close;
@@ -205,7 +209,7 @@ begin
       ds3.open;
 
 
-       Skolom :='Nomor,Tanggal,Bulan,Tahun,Nama,Tipe, Qty, Harga, Nilai, Keterangan';
+       Skolom :='Nomor,Tanggal,Bulan,Tahun,Nama,Kategori,Tipe, SubDepartemen, Departemen, Qty, Harga, Nilai, Keterangan';
        QueryToDBGrid(cxGrid1DBTableView1, s,skolom ,ds2);
 
        cxGrid1DBTableView1.Columns[0].MinWidth := 70;
@@ -216,8 +220,11 @@ begin
        cxGrid1DBTableView1.Columns[5].MinWidth := 100;
        cxGrid1DBTableView1.Columns[6].MinWidth := 100;
        cxGrid1DBTableView1.Columns[7].MinWidth := 100;
-        cxGrid1DBTableView1.Columns[8].MinWidth := 100;
-         cxGrid1DBTableView1.Columns[9].MinWidth := 100;
+       cxGrid1DBTableView1.Columns[8].MinWidth := 100;
+       cxGrid1DBTableView1.Columns[9].MinWidth := 100;
+       cxGrid1DBTableView1.Columns[10].MinWidth := 100;
+       cxGrid1DBTableView1.Columns[11].MinWidth := 100;
+       cxGrid1DBTableView1.Columns[12].MinWidth := 100;
 
            jmlkolom :=cxGrid1DBTableView1.ColumnCount-1;
 
@@ -231,12 +238,12 @@ begin
 
         end;
 
-        cxGrid1DBTableView1.Columns[6].Summary.FooterKind:=skSum;
-        cxGrid1DBTableView1.Columns[6].Summary.FooterFormat:='###,###,###,###';
-        cxGrid1DBTableView1.Columns[7].Summary.FooterKind:=skSum;
-        cxGrid1DBTableView1.Columns[7].Summary.FooterFormat:='###,###,###,###';
-        cxGrid1DBTableView1.Columns[8].Summary.FooterKind:=skSum;
-        cxGrid1DBTableView1.Columns[8].Summary.FooterFormat:='###,###,###,###';
+        cxGrid1DBTableView1.Columns[9].Summary.FooterKind:=skSum;
+        cxGrid1DBTableView1.Columns[9].Summary.FooterFormat:='###,###,###,###';
+        cxGrid1DBTableView1.Columns[10].Summary.FooterKind:=skSum;
+        cxGrid1DBTableView1.Columns[10].Summary.FooterFormat:='###,###,###,###';
+        cxGrid1DBTableView1.Columns[11].Summary.FooterKind:=skSum;
+        cxGrid1DBTableView1.Columns[11].Summary.FooterFormat:='###,###,###,###';
 
         //  hitung;
 

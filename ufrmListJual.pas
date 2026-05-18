@@ -206,7 +206,11 @@ if CheckBox1.Checked then
 
       s:= ' SELECT fp_nomor Nomor,fp_tanggal Tanggal,month(fp_tanggal) Bulan,year(fp_tanggal) Tahun,'
           + ' (SELECT sls_nama FROM tsalesman inner join tsalescustomer ON sls_kode=sc_sls_kode where sc_cus_kode=fp_cus_kode) Marketing,'
-          + ' sls_nama Salesman,cus_nama Outlet,brg_kode Kode,brg_nama Nama,brg_merk Merk,KTG_NAMA KATEGORI,BRG_DIVISI Divisi, fpd_brg_satuan Satuan,fpd_cn ,'
+          + ' sls_nama Salesman,cus_nama Outlet,brg_kode Kode,brg_nama Nama,brg_merk Merk,KTG_NAMA KATEGORI, '
+          + ' (select gdg_jenis_barang from tgudang where gdg_kode = brg_gdg_default LIMIT 1) Tipe, '
+          + ' (SELECT ktg_nama FROM tkategori where ktg_kode=SUBSTRING_INDEX(brg_ktg_kode, ".", 2)) SubDepartemen, '
+          + ' (SELECT ktg_nama FROM tkategori where ktg_kode=SUBSTRING_INDEX(brg_ktg_kode, ".", 1)) Departemen, '
+          + ' BRG_DIVISI Divisi, fpd_brg_satuan Satuan,fpd_cn ,'
           + ' sum((fpd_qty-ifnull(retjd_qty,0))) Qty,sum((100-fpd_discpr)*(fpd_harga*(fpd_qty-ifnull(retjd_qty,0)))/100*if(fp_istax=1,if(fp_tanggal<"2022/04/01",1.1,1.11),1)) Nilai,'
           + ' sum((100-fpd_discpr)*(fpd_harga*(fpd_qty-ifnull(retjd_qty,0)))/100) Nilai_Belum_ppn,'
           + ' sum(fpd_cn*((100-fpd_discpr)*fpd_harga/100)*(fpd_qty-ifnull(retjd_qty,0))/100) Kontrak'
@@ -231,7 +235,11 @@ begin
   if CheckBox3.Checked then
            s:= ' SELECT fp_nomor Nomor,fp_tanggal Tanggal,month(fp_tanggal) Bulan,year(fp_tanggal) Tahun,'
           + ' (SELECT sls_nama FROM tsalesman inner join tsalescustomer ON sls_kode=sc_sls_kode where sc_cus_kode=fp_cus_kode) Marketing,'
-          + ' sls_nama Salesman,cus_nama Outlet,brg_kode Kode,brg_nama Nama,brg_merk Merk,ktg_nama Kategori,BRG_DIVISI Divisi, fpd_brg_satuan Satuan,fpd_cn ,'
+          + ' sls_nama Salesman,cus_nama Outlet,brg_kode Kode,brg_nama Nama,brg_merk Merk,ktg_nama Kategori, '
+          + ' (select gdg_jenis_barang from tgudang where gdg_kode = brg_gdg_default LIMIT 1) Tipe, '
+          + ' (SELECT ktg_nama FROM tkategori where ktg_kode=SUBSTRING_INDEX(brg_ktg_kode, ".", 2)) SubDepartemen, '
+          + ' (SELECT ktg_nama FROM tkategori where ktg_kode=SUBSTRING_INDEX(brg_ktg_kode, ".", 1)) Departemen, '
+          + ' BRG_DIVISI Divisi, fpd_brg_satuan Satuan,fpd_cn ,'
           + ' sum((fpd_qty-ifnull(retjd_qty,0))) Qty,sum((100-fpd_discpr)*(fpd_harga*(fpd_qty-ifnull(retjd_qty,0)))/100*if(fp_istax=1,if(fp_tanggal<"2022/04/01",1.1,1.11),1)) Nilai,'
           + ' sum((100-fpd_discpr)*(fpd_harga*(fpd_qty-ifnull(retjd_qty,0)))/100) Nilai_Belum_ppn,'
           + ' sum(fpd_cn*((100-fpd_discpr)*fpd_harga/100)*(fpd_qty-ifnull(retjd_qty,0))/100) Kontrak'
@@ -255,7 +263,11 @@ begin
   else
       s:= ' SELECT fp_nomor Nomor,fp_tanggal Tanggal,month(fp_tanggal) Bulan,year(fp_tanggal) Tahun,'
           + ' (SELECT sls_nama FROM tsalesman inner join tsalescustomer ON sls_kode=sc_sls_kode where sc_cus_kode=fp_cus_kode) Marketing,'
-          + ' sls_nama Salesman,cus_nama Outlet,brg_kode Kode,brg_nama Nama,brg_merk Merk,ktg_nama Kategori,BRG_DIVISI Divisi, fpd_brg_satuan Satuan,fpd_cn ,'
+          + ' sls_nama Salesman,cus_nama Outlet,brg_kode Kode,brg_nama Nama,brg_merk Merk,ktg_nama Kategori, '
+          + ' (select gdg_jenis_barang from tgudang where gdg_kode = brg_gdg_default LIMIT 1) Tipe, '
+          + ' (SELECT ktg_nama FROM tkategori where ktg_kode=SUBSTRING_INDEX(brg_ktg_kode, ".", 2)) SubDepartemen, '
+          + ' (SELECT ktg_nama FROM tkategori where ktg_kode=SUBSTRING_INDEX(brg_ktg_kode, ".", 1)) Departemen, '
+          + ' BRG_DIVISI Divisi, fpd_brg_satuan Satuan,fpd_cn ,'
           + ' sum((fpd_qty-ifnull(retjd_qty,0))) Qty,sum((100-fpd_discpr)*(fpd_harga*(fpd_qty-ifnull(retjd_qty,0)))/100*if(fp_istax=1,if(fp_tanggal<"2022/04/01",1.1,1.11),1)) Nilai,'
           + ' sum((100-fpd_discpr)*(fpd_harga*(fpd_qty-ifnull(retjd_qty,0)))/100) Nilai_Belum_ppn,'
           + ' sum(fpd_cn*((100-fpd_discpr)*fpd_harga/100)*(fpd_qty-ifnull(retjd_qty,0))/100) Kontrak '
@@ -292,20 +304,20 @@ s:= s + ' group by fp_nomor,fp_tanggal ,month(fp_tanggal),year(fp_tanggal) ,cus_
 //
       if frmMenu.KDUSER = 'FINANCE' THEN
       Begin
-        Skolom :='Nomor,Tanggal,Bulan,Tahun,Salesman,Marketing,Outlet,Kode,Nama,Satuan,Merk,Kategori,Divisi,fpd_cn,Qty,Nilai,Nilai_Belum_ppn,Kontrak,Hpp,Margin,Biaya_promosi';
+        Skolom :='Nomor,Tanggal,Bulan,Tahun,Salesman,Marketing,Outlet,Kode,Nama,Satuan,Merk,Kategori,Tipe,SubDepartemen,Departemen, Divisi,fpd_cn,Qty,Nilai,Nilai_Belum_ppn,Kontrak,Hpp,Margin,Biaya_promosi';
         QueryToDBGrid(cxGrid1DBTableView1, s,skolom ,ds2);
-        cxGrid1DBTableView1.Columns[20].Summary.FooterKind:=skSum;
-        cxGrid1DBTableView1.Columns[20].Summary.FooterFormat:='###,###,###,###';
-        cxGrid1DBTableView1.Columns[18].Summary.FooterKind:=skSum;
-        cxGrid1DBTableView1.Columns[18].Summary.FooterFormat:='###,###,###,###';
-        cxGrid1DBTableView1.Columns[19].Summary.FooterKind:=skSum;
-        cxGrid1DBTableView1.Columns[19].Summary.FooterFormat:='###,###,###,###';
+        cxGrid1DBTableView1.Columns[23].Summary.FooterKind:=skSum;
+        cxGrid1DBTableView1.Columns[23].Summary.FooterFormat:='###,###,###,###';
+        cxGrid1DBTableView1.Columns[21].Summary.FooterKind:=skSum;
+        cxGrid1DBTableView1.Columns[21].Summary.FooterFormat:='###,###,###,###';
+        cxGrid1DBTableView1.Columns[22].Summary.FooterKind:=skSum;
+        cxGrid1DBTableView1.Columns[22].Summary.FooterFormat:='###,###,###,###';
 
 
       end
       else
       Begin
-        Skolom :='Nomor,Tanggal,Bulan,Tahun,Salesman,Marketing,Outlet,Kode,Nama,Satuan,Merk,Kategori,Divisi,fpd_cn,Qty,Nilai,Nilai_Belum_ppn,Kontrak,Biaya_promosi';
+        Skolom :='Nomor,Tanggal,Bulan,Tahun,Salesman,Marketing,Outlet,Kode,Nama,Satuan,Merk,Kategori,Tipe,SubDepartemen,Departemen, Divisi,fpd_cn,Qty,Nilai,Nilai_Belum_ppn,Kontrak,Biaya_promosi';
         QueryToDBGrid(cxGrid1DBTableView1, s,skolom ,ds2);
       end;
 
@@ -336,18 +348,18 @@ s:= s + ' group by fp_nomor,fp_tanggal ,month(fp_tanggal),year(fp_tanggal) ,cus_
         end;
 
 
-        cxGrid1DBTableView1.Columns[18].Summary.FooterKind:=skSum;
-        cxGrid1DBTableView1.Columns[18].Summary.FooterFormat:='###,###,###,###';
-        cxGrid1DBTableView1.Columns[14].Summary.FooterKind:=skSum;
-        cxGrid1DBTableView1.Columns[14].Summary.FooterFormat:='###,###,###,###';
-        cxGrid1DBTableView1.Columns[13].Summary.FooterKind:=skSum;
-        cxGrid1DBTableView1.Columns[13].Summary.FooterFormat:='###,###,###,###';
-        cxGrid1DBTableView1.Columns[15].Summary.FooterKind:=skSum;
-        cxGrid1DBTableView1.Columns[15].Summary.FooterFormat:='###,###,###,###';
-        cxGrid1DBTableView1.Columns[16].Summary.FooterKind:=skSum;
-        cxGrid1DBTableView1.Columns[16].Summary.FooterFormat:='###,###,###,###';
+        cxGrid1DBTableView1.Columns[21].Summary.FooterKind:=skSum;
+        cxGrid1DBTableView1.Columns[21].Summary.FooterFormat:='###,###,###,###';
         cxGrid1DBTableView1.Columns[17].Summary.FooterKind:=skSum;
         cxGrid1DBTableView1.Columns[17].Summary.FooterFormat:='###,###,###,###';
+        cxGrid1DBTableView1.Columns[16].Summary.FooterKind:=skSum;
+        cxGrid1DBTableView1.Columns[16].Summary.FooterFormat:='###,###,###,###';
+        cxGrid1DBTableView1.Columns[18].Summary.FooterKind:=skSum;
+        cxGrid1DBTableView1.Columns[18].Summary.FooterFormat:='###,###,###,###';
+        cxGrid1DBTableView1.Columns[19].Summary.FooterKind:=skSum;
+        cxGrid1DBTableView1.Columns[19].Summary.FooterFormat:='###,###,###,###';
+        cxGrid1DBTableView1.Columns[20].Summary.FooterKind:=skSum;
+        cxGrid1DBTableView1.Columns[20].Summary.FooterFormat:='###,###,###,###';
 
         //  hitung;
 

@@ -72,7 +72,8 @@ uses
   dxNavBarBase, dxNavBar, dxBarDBNav,
   dxSkinsdxRibbonPainter,
    cxPC, dxDockControl,
-  dxDockPanel, dxSkinsdxNavBar2Painter ,ShellAPI, ImgList, MyAccess;
+  dxDockPanel, dxSkinsdxNavBar2Painter ,ShellAPI, ImgList, MyAccess, MemDS,
+  DBAccess;
 
 type
   TfrmMenu = class(TForm)
@@ -201,6 +202,7 @@ type
     dxPesananJual: TdxNavBarItem;
     dxPengiriman: TdxNavBarItem;
     dxListProduksi: TdxNavBarItem;
+    DM: TMyQuery;
     procedure FileExit1Execute(Sender: TObject);
     function ShowForm(AFormClass: TFormClass): TForm;
     procedure Maximized1Click(Sender: TObject);
@@ -331,6 +333,13 @@ type
     procedure LaporanStokCabang1Click(Sender: TObject);
     procedure dxreturbahanClick(Sender: TObject);
     procedure dxListProduksiClick(Sender: TObject);
+    procedure SembunyikanMenu(AMainMenu: TMainMenu);
+    function ApplyMainMenuAccess(AMenuItem: TMenuItem): Boolean;
+    procedure ApplyMainMenu(AMainMenu: TMainMenu);
+    procedure HideMenuItem(AMenuItem: TMenuItem);
+    procedure LoadHakUser;
+    procedure ApplyHakAkses;
+    procedure UpdateGroupVisibility;
 
 
   private
@@ -378,6 +387,8 @@ var
   sqlbantuan : string;
   sqlfilter : string;
     zVersi:string;
+      hakUser: TStringList;
+  ListHak: TStringList;
 
 implementation
  uses Ulib,uModuleConnection,ufrmUser, UfrmLogin,ufrmBrowseGudang,ufrmBrowseCostCenter,
@@ -413,6 +424,7 @@ var
   i: Integer;
 begin
 //  inherited;
+
   if ( not ceKVIEW(frmMenu.KDUSER,AFormClass.ClassName)) then
         begin
            MessageDlg('Anda tidak berhak Membuka di Modul ini',mtWarning, [mbOK],0);
@@ -450,7 +462,9 @@ var
    tsql:TMyQuery;
     AppVersi,DbVersi:Double;
 begin
-
+ dxNavBar2.Visible := False;
+  SembunyikanMenu(MainMenu1);
+  
       bacafile;
       StatusBar1.Panels[1].Text := 'Connected  to ' + aHost;
       StatusBar1.Panels[2].Text := 'Database  ' + aDatabase;
@@ -460,7 +474,7 @@ begin
       ShortDateFormat := 'M/d/yyyy';
       DateSeparator   := '/';
       DecimalSeparator:= '.';
-      zVersi:='5.0.21';
+      zVersi:='5.0.24';
       StatusBar1.Panels[4].Text := 'Versi ' + zversi;
       Application.UpdateFormatSettings:=True;
 // cek ver si
@@ -1507,6 +1521,109 @@ begin
  begin
     ShowForm(TfrmListProduksi).Show;
  end;
+end;
+
+procedure TfrmMenu.SembunyikanMenu(AMainMenu: TMainMenu);
+var
+  i: Integer;
+begin
+  for i := 0 to AMainMenu.Items.Count - 1 do
+    HideMenuItem(AMainMenu.Items[i]);
+end;
+
+procedure TfrmMenu.HideMenuItem(AMenuItem: TMenuItem);
+var
+  i: Integer;
+begin
+  AMenuItem.Visible := False;
+
+  for i := 0 to AMenuItem.Count - 1 do
+    HideMenuItem(AMenuItem.Items[i]);
+end;
+
+function TfrmMenu.ApplyMainMenuAccess(AMenuItem: TMenuItem): Boolean;
+var
+  i: Integer;
+  ChildVisible: Boolean;
+  HasAccess: Boolean;
+begin
+  ChildVisible := False;
+
+  for i := 0 to AMenuItem.Count - 1 do
+    if ApplyMainMenuAccess(AMenuItem.Items[i]) then
+      ChildVisible := True;
+
+  HasAccess := hakUser.IndexOf(AMenuItem.Name) >= 0;
+
+  if AMenuItem.Count = 0 then
+    AMenuItem.Visible := HasAccess
+  else
+    AMenuItem.Visible := ChildVisible;
+
+  Result := AMenuItem.Visible;
+end;
+
+
+procedure TfrmMenu.ApplyMainMenu(AMainMenu: TMainMenu);
+var
+  i: Integer;
+begin
+  for i := 0 to AMainMenu.Items.Count - 1 do
+    ApplyMainMenuAccess(AMainMenu.Items[i]);
+end;
+
+procedure TfrmMenu.LoadHakUser;
+begin
+  ListHak := TStringList.Create;
+  hakUser := TStringList.Create;
+  DM.Connection := conn;
+  with DM do
+  begin
+    Close;
+    SQL.Text := 'select men_menu_name, men_menu_name2 from tmenu inner join thakuser on men_id=hak_men_id where hak_user_kode = :u';
+    ParamByName('u').AsString := KDUSER;
+    Open;
+
+    while not Eof do
+    begin
+      ListHak.Add(FieldByName('men_menu_name').AsString);
+      hakUser.Add(FieldByName('men_menu_name2').AsString);
+      Next;
+    end;
+  end;
+end;
+
+procedure TfrmMenu.ApplyHakAkses;
+var
+  i: Integer;
+begin
+  for i := 0 to dxNavBar2.Items.Count - 1 do
+  begin
+    dxNavBar2.Items[i].Visible :=
+      ListHak.IndexOf(dxNavBar2.Items[i].Name) <> -1;
+  end;
+end;
+
+procedure TfrmMenu.UpdateGroupVisibility;
+var
+  i, j: Integer;
+  AdaVisible: Boolean;
+begin
+  for i := 0 to dxNavBar2.Groups.Count - 1 do
+  begin
+    AdaVisible := False;
+
+    for j := 0 to dxNavBar2.Groups[i].LinkCount - 1 do
+    begin
+      if dxNavBar2.Groups[i].Links[j].Item.Visible then
+      begin
+        AdaVisible := True;
+        Break;
+      end;
+    end;
+
+    dxNavBar2.Groups[i].Visible := AdaVisible;
+  end;
 end;
 
 end.

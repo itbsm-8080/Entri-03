@@ -4743,4 +4743,8 @@ object frmMenu: TfrmMenu
       C01FFFFF80FFF81FC07FFFFFFFFFF83F00000000000000000000000000000000
       000000000000}
   end
+  object DM: TMyQuery
+    Left = 384
+    Top = 264
+  end
 end
